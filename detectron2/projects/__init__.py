@@ -2,6 +2,7 @@
 import importlib.abc
 import importlib.util
 from pathlib import Path
+import logging
 
 __all__ = []
 
@@ -23,9 +24,11 @@ if _PROJECT_ROOT.is_dir():
                 return
             project_name = name.split(".")[-1]
             project_dir = _PROJECTS.get(project_name)
+            logging.info(f"project_name: {project_name}, project_dir: {project_dir}")
             if not project_dir:
                 return
             target_file = _PROJECT_ROOT / f"{project_dir}/{project_name}/__init__.py"
+            logging.info(f"target_file: {target_file}")
             if not target_file.is_file():
                 return
             return importlib.util.spec_from_file_location(name, target_file)
